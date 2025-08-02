@@ -27,4 +27,15 @@ jobs:
           tags: |
             dokploy/example:latest
           platforms: linux/amd64     
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
+    - name: Dokploy Deployment
+      uses: benbristow/dokploy-deploy-action@0.0.1
+      with:
+        auth_token: ${{ secrets.DOKPLOY_AUTH_TOKEN }}
+        application_id: ${{ secrets.DOKPLOY_APPLICATION_ID }}
+        dokploy_url: ${{ secrets.DOKPLOY_URL }}
