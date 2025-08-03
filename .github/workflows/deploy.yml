@@ -12,12 +12,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Log in to Docker Hub
+      
+      - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
@@ -26,8 +27,9 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            dokploy/example:latest
+            ghcr.io/sysxtreme/production-example:latest
           platforms: linux/amd64     
+
   deploy:
     runs-on: ubuntu-latest
     steps:
