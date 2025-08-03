@@ -31,6 +31,7 @@ jobs:
           platforms: linux/amd64     
 
   deploy:
+    needs: build-and-push-dockerfile-image  
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
