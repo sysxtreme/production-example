@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  app:
+    image: ghcr.io/sysxtreme/production-example:latest
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      update_config:
+        parallelism: 1
+        delay: 10s
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+    networks:
+      - web
+    volumes:
+      - pnpm-store:/pnpm/store # Optional, if you want to persist cache
+
+volumes:
+  pnpm-store:
+
+networks:
+  web:
+    driver: overlay
