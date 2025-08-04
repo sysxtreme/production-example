@@ -7,21 +7,17 @@ services:
       replicas: 2
       restart_policy:
         condition: on-failure
-      update_config:
-        parallelism: 1
-        delay: 10s
-    ports:
-      - "3000:3000"
     environment:
       NODE_ENV: production
     networks:
       - web
-    volumes:
-      - pnpm-store:/pnpm/store # Optional, if you want to persist cache
-
-volumes:
-  pnpm-store:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.production-example.rule=Host(`myapp.acphost.xyz`)"
+      - "traefik.http.routers.production-example.entrypoints=websecure"
+      - "traefik.http.routers.production-example.tls=true"
+      - "traefik.http.services.production-example.loadbalancer.server.port=3000"
 
 networks:
   web:
-    driver: overlay
+    external: true  # Assume you're using Dokploy's default Traefik network
