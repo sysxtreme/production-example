@@ -10,7 +10,7 @@ services:
     environment:
       NODE_ENV: production
     networks:
-      - web
+      - dokploy-network
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.production-example.rule=Host(`myapp.acphost.xyz`)"
@@ -19,5 +19,5 @@ services:
       - "traefik.http.services.production-example.loadbalancer.server.port=3000"
 
 networks:
-  web:
-    external: true  # Assume you're using Dokploy's default Traefik network
+  dokploy-network:
+    external: true
